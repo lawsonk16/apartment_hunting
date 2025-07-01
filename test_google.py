@@ -2,19 +2,31 @@ import requests
 import json
 
 
-# Set up the API endpoint and parameters
-endpoint = "https://api.openrouteservice.org/v2/directions/driving-car"
-api_key = "Y5b3ce3597851110001cf62482287d1f6b5eb47a286dd6c756413ddb7" # Replace with your API key
-start = "Berlin, Germany" # Replace with your starting address
-end = "Hamburg, Germany" # Replace with your ending address
+google_api_key = 'AIzaSyAnNRFTu5qEotKzTm1-O83jLECmbOfQDaQ'
 
-# Send a GET request to the API with the endpoint and parameters
-params = {"api_key": api_key, "start": start, "end": end}
-response = requests.get(endpoint, params=params)
+import googlemaps
+from datetime import datetime
 
-# Parse the JSON response and extract the travel time
-data = json.loads(response.text)
-travel_time = data["features"][0]["properties"]["segments"][0]["duration"]
+gmaps = googlemaps.Client(key=google_api_key)
 
-# Print the travel time in minutes
-print("Travel time between {} and {} is {} minutes.".format(start, end, round(travel_time/60)))
+# Geocoding an address
+geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
+
+# Look up an address with reverse geocoding
+reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
+
+# Request directions via public transit
+now = datetime.now()
+directions_result = gmaps.directions("Sydney Town Hall",
+                                     "Parramatta, NSW",
+                                     mode="transit",
+                                     departure_time=now)
+
+# Validate an address with address validation
+addressvalidation_result =  gmaps.addressvalidation(['1600 Amphitheatre Pk'], 
+                                                    regionCode='US',
+                                                    locality='Mountain View', 
+                                                    enableUspsCass=True)
+
+# Get an Address Descriptor of a location in the reverse geocoding response
+address_descriptor_result = gmaps.reverse_geocode((40.714224, -73.961452), enable_address_descriptor=True)
