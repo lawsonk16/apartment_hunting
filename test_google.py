@@ -2,7 +2,7 @@ import requests
 import json
 
 
-google_api_key = 'AIzaSyAnNRFTu5qEotKzTm1-O83jLECmbOfQDaQ'
+google_api_key = ''
 
 import googlemaps
 from datetime import datetime
